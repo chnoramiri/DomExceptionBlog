@@ -5,7 +5,7 @@ import TinyEditor from "../services/TinyEditor";
 
 // }
 
-const AddBlog: FC = () => {
+const SaveBlog: FC = () => {
   return (
     <>
       <TinyEditor />
@@ -13,4 +13,4 @@ const AddBlog: FC = () => {
   );
 };
 
-export default AddBlog;
+export default SaveBlog;

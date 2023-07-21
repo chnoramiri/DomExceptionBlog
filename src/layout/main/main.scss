@@ -1,5 +1,7 @@
 .main {
   display: flex;
-  justify-content: space-around; 
-  margin-top: 70px;
+  flex-direction: column;
+  margin: 150px;
+
+  justify-content: center;
 }

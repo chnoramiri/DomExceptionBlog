@@ -1,7 +1,20 @@
 body,#root {
   margin: 0 !important;
   min-height: 100vh;
+  
   display: flex;
   flex-direction: column;
+  
  
+}
+.display{
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+row-gap: 30px;
+column-gap: 30px;
+}
+.card{
+  width: 350px;
+  height: 450px;
 }
