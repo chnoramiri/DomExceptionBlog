@@ -1,25 +1,43 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface Blog {
-  id: number;
+export interface blogs {
+  blogId: number;
   title: string;
   content: string;
-  pictures:[]
+  pictures: [];
+}
+export interface blogById {
+  blogId: number;
+  title: string;
+  content: string;
+  pictures: [];
 }
 
 interface BlogState {
-  blog: Blog[];
+  blogs: blogs[];
+  blogById: blogById[];
 }
 
-const initialState: BlogState = {
-  blog: [],
-};
+const initialState = {
+  blogs: [],
+  blogById: [],
+} as BlogState;
 
-export const fetchBlog = createAsyncThunk("blog/fetch", async (thunkAPI) => {
+export const fetchBlogById = createAsyncThunk(
+  "blogById/fetch",
+  async ({ blogId }: { blogId: number }, thunkAPI) => {
+    const response = await fetch(
+      `https://domexception.azurewebsites.net/api/Blog/${blogId}`,
+      {
+        method: "GET",
+      }
+    );
+    const data = response.json();
+    return data;
+  }
+);
+
+export const fetchBlogs = createAsyncThunk("blogs/fetch", async (thunkAPI) => {
   const response = await fetch(
     "https://domexception.azurewebsites.net/api/Blog",
     {
@@ -32,7 +50,7 @@ export const fetchBlog = createAsyncThunk("blog/fetch", async (thunkAPI) => {
 });
 
 export const saveBlog = createAsyncThunk(
-  "blog/add",
+  "blogs/add",
   async (
     {
       title,
@@ -49,36 +67,29 @@ export const saveBlog = createAsyncThunk(
         body: JSON.stringify({ title, content, pictures }),
       }
     );
+
     const data = await response.json();
     return data;
   }
 );
 
 export const BlogSlice = createSlice({
-  name: "blog",
+  name: "blogs",
   initialState,
   reducers: {
-    addBlog: (
-      state,
-      action: PayloadAction<{ title: string; content: string;pictures:[] }>
-    ) => {
-      state.blog.push({
-        id: state.blog.length,
-        title: action.payload.title,
-        content: action.payload.content,
-        pictures: action.payload.pictures,
-      });
-    },
+   
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchBlog.fulfilled, (state, action) => {
-      state.blog = action.payload;
+    builder.addCase(fetchBlogs.fulfilled, (state, action) => {
+      state.blogs = action.payload;
     });
     builder.addCase(saveBlog.fulfilled, (state, action) => {
-      state.blog.push(action.payload);
+      state.blogs.push(action.payload);
+    });
+    builder.addCase(fetchBlogById.fulfilled, (state, action) => {
+      state.blogById.push(action.payload);
     });
   },
 });
 
 export default BlogSlice.reducer;
-export const { addBlog } = BlogSlice.actions;
