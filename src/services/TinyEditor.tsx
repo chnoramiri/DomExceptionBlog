@@ -10,8 +10,7 @@ const TinyEditor: FC = () => {
   const [body, SetBody] = useState("");
   const location = useLocation();
 
-  const data = location.state.data;
-console.log(data,"data")
+  const data = location.state?.data;
   const submit = (e) => {
     e.preventDefault();
     dispatch(
@@ -33,7 +32,7 @@ console.log(data,"data")
       <input
         type="text"
         placeholder="Title"
-        value={data&&data.content}
+        value={data?.content}
         onChange={(e) => {
           SetTitle(e.target.value);
         }}
@@ -42,7 +41,7 @@ console.log(data,"data")
 
       <Editor
         textareaName="Body"
-        initialValue={data&&data.title}
+        initialValue={data?.title}
         init={{
           height: 500,
           menubar: false,
