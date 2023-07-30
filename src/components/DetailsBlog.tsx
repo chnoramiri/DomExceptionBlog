@@ -12,16 +12,13 @@ const DetailsBlog: FC = () => {
 
   useEffect(() => {
     dispatch(fetchBlogById({ blogId: id }));
-    console.log(id);
   }, []);
-// console.log(blogById)
+  const body = blogById[0] && blogById[0].content;
+
   return (
-    <div className="DetailsBlog">
-      <Typography variant="h3">{blogById[0]&&blogById[0].title}</Typography>
-      <Typography variant="h5">{blogById[0]&&blogById[0].content}</Typography>
-      {/* {blogById[0]&&blogById[0].pictures.map((pic, index) => (
-        <img src={require(`${pic.picture}`)} alt="picture" key={index}/>
-      ))} */}
+    <div>
+      <p>Title : {blogById[0] && blogById[0].title}</p>
+      <div dangerouslySetInnerHTML={{ __html: body }} />
     </div>
   );
 };
