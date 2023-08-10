@@ -13,11 +13,12 @@ const DetailsBlog: FC = () => {
   useEffect(() => {
     dispatch(fetchBlogById({ blogId: id }));
   }, []);
-  const body = blogById[0] && blogById[0].content;
+  const body = (blogById)=> blogById[0]?.content;
+  const title = (blogById)=> blogById[0]?.title;
 
   return (
     <div>
-      <p>Title : {blogById[0] && blogById[0].title}</p>
+      <p>Title : {title}</p>
       <div dangerouslySetInnerHTML={{ __html: body }} />
     </div>
   );

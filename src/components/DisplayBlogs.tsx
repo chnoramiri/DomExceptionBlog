@@ -10,7 +10,8 @@ import blog1 from "../assets/images/blog1.jpg";
 import { FC, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
-import { fetchBlogs } from "../services/redux/features/BlogSlice";
+import { fetchBlogs, deleteBlog } from "../services/redux/features/BlogSlice";
+import Dialog from '@mui/material/Dialog';
 
 interface WizardProps {
   component: string;
@@ -23,9 +24,10 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
     dispatch(fetchBlogs());
   }, []);
   const blogs = useAppSelector((state) => state.blogs);
+  const deleteBlog2 = (id) => {
+    dispatch(deleteBlog({ blogId: id }));
 
-  const navigation = () => {
-    navigate("/dashboard/TinyEditor");
+    // <Dialog />
   };
   return (
     <div className="display">
@@ -38,15 +40,14 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
                 <Typography gutterBottom variant="h5" component="div">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: blog.title.substring(0, 25),
+                      __html: blog.title.substring(0,30)
                     }}
                   />
-                  {/* {blog.title} */}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: blog.content.substring(0, 200),
+                      __html: blog.content.substring(0,50)
                     }}
                   ></div>
                 </Typography>
@@ -58,12 +59,12 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
                 </CardActions>
               ) : (
                 <CardActions>
-                  <Link to={"/dashboard/TinyEditor"} state={{data:blog}}>Edit</Link>
-                  <Button size="small" onClick={navigation}>
+                  <Link to={"/dashboard/TinyEditor"} state={{ data: blog }}>
                     Edit
+                  </Link>
+                  <Button onClick={() => deleteBlog2(blog.blogId)}>
+                    Delete
                   </Button>
-                  <Button size="small">Delete</Button>
-                  {/* <Link to={`/details/${blog.blogId}`}>Read More</Link> */}
                 </CardActions>
               )}
             </Card>

@@ -1,15 +1,16 @@
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../layout/footer/Footer";
-import Header from "../layout/header/Header";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
+import DisplayBlog from "../components/DisplayBlogs";
+import "./layout.scss";
 
 const Layout: FC = () => {
   return (
     <>
       <Header />
-      <div style={{ display: "flex", flex: 1, justifyContent: "center" }}>
-        <Outlet />
-      </div>
+      <Outlet />
+      <DisplayBlog component="Home" />
       <Footer />
     </>
   );
