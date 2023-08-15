@@ -8,27 +8,24 @@ import Typography from "@mui/material/Typography";
 import { useAppSelector } from "../services/redux/store/store";
 import blog1 from "../assets/images/blog1.jpg";
 import { FC, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
-import { fetchBlogs, deleteBlog } from "../services/redux/features/BlogSlice";
-import Dialog from '@mui/material/Dialog';
+import { fetchBlogs } from "../services/redux/features/BlogSlice";
+import DeleteBlog from "./DeleteBlog";
 
 interface WizardProps {
   component: string;
 }
-const MediaCard: FC<WizardProps> = ({ component }) => {
-  const navigate = useNavigate();
 
+const MediaCard: FC<WizardProps> = ({ component }) => {
   const dispatch = useAppDispatch();
+  const blogs = useAppSelector((state) => state.blogs);
+  const [isDeleteBlog, setIsDeleteBlog] = React.useState(false);
+
   useEffect(() => {
     dispatch(fetchBlogs());
   }, []);
-  const blogs = useAppSelector((state) => state.blogs);
-  const deleteBlog2 = (id) => {
-    dispatch(deleteBlog({ blogId: id }));
 
-    // <Dialog />
-  };
   return (
     <div className="display">
       {blogs &&
@@ -37,20 +34,21 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
             <Card sx={{ maxWidth: 345 }} className="card" key={index}>
               <CardMedia sx={{ height: 200 }} image={blog1} title="title" />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: blog.title.substring(0,30)
-                    }}
-                  />
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: blog.content.substring(0,50)
-                    }}
-                  ></div>
-                </Typography>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  dangerouslySetInnerHTML={{
+                    __html: blog.title.substring(0, 30),
+                  }}
+                ></Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  dangerouslySetInnerHTML={{
+                    __html: blog.content.substring(0, 50),
+                  }}
+                ></Typography>
               </CardContent>
               {component === "Home" ? (
                 <CardActions>
@@ -59,12 +57,17 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
                 </CardActions>
               ) : (
                 <CardActions>
-                  <Link to={"/dashboard/TinyEditor"} state={{ data: blog }}>
+                  <Link to={"/dashboard/EditBlog"} state={{ data: blog }}>
                     Edit
                   </Link>
-                  <Button onClick={() => deleteBlog2(blog.blogId)}>
-                    Delete
-                  </Button>
+                  <Button onClick={() => setIsDeleteBlog(true)}>Delete</Button>
+                  {isDeleteBlog && (
+                    <DeleteBlog
+                      isDeleteBlog={isDeleteBlog}
+                      setIsDeleteBlog={setIsDeleteBlog}
+                      id={blog.blogId}
+                    />
+                  )}
                 </CardActions>
               )}
             </Card>

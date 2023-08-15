@@ -11,7 +11,8 @@ import DisplayBlogs from "./components/DisplayBlogs";
 import DashboardBlog from "./components/dashboard/DashboardBlog";
 import Layout from "./layout/Layout";
 import { createBrowserRouter } from "react-router-dom";
-import TinyEditor from "./services/TinyEditor";
+import CreateBlog from "./components/CreateBlog";
+import EditBlog from "./components/EditBlog";
 
 export function App() {
   const router = createBrowserRouter(
@@ -22,8 +23,9 @@ export function App() {
           <Route path="/DisplayBlogs" element={<DisplayBlogs />} />
         </Route>
         <Route path="/dashboard" element={<DashboardRoot />}>
-          <Route path="/dashboard/TinyEditor" element={<TinyEditor />} />
+          <Route path="/dashboard/CreateBlog" element={<CreateBlog />} />
           <Route path="/dashboard/DisplayBlogs" element={<DisplayBlogs />} />
+          <Route path="/dashboard/EditBlog" element={<EditBlog />} />
         </Route>
       </Route>
     )

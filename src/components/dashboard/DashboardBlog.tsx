@@ -16,7 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import "./dashboardBlog.scss";
 import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
 import DisplayBlogs from "../DisplayBlogs";
-import TinyEditor from "../../services/TinyEditor";
+import TinyEditor from "../sharedCompinents/TinyEditor";
 import { MenuItem } from "@mui/base";
 import { MenuList } from "@mui/material";
 
@@ -32,14 +32,14 @@ const DashboardBlog: FC = () => {
       onClick: () => navigate("/dashboard"),
     },
     {
-      text: "DisplayBlogs",
+      text: "Display blogs",
       icon: <MailIcon />,
       onClick: () => navigate("/dashboard/DisplayBlogs"),
     },
     {
-      text: "TinyEditor",
+      text: "Create blog",
       icon: <MailIcon />,
-      onClick: () => navigate("/dashboard/TinyEditor"),
+      onClick: () => navigate("/dashboard/CreateBlog"),
     },
   ];
   return (
