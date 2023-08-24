@@ -7,24 +7,27 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useAppSelector } from "../services/redux/store/store";
 import blog1 from "../assets/images/blog1.jpg";
-import { FC, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
-import { fetchBlogs } from "../services/redux/features/BlogSlice";
+import { fetchBlogs, deleteBlog } from "../services/redux/features/BlogSlice";
 import DeleteBlog from "./DeleteBlog";
 
-interface WizardProps {
-  component: string;
-}
-
-const MediaCard: FC<WizardProps> = ({ component }) => {
+const MediaCard: FC = () => {
   const dispatch = useAppDispatch();
+  const status = useLocation();
   const blogs = useAppSelector((state) => state.blogs);
-  const [isDeleteBlog, setIsDeleteBlog] = React.useState(false);
+  const [isDeleteBlog, setIsDeleteBlog] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
 
   useEffect(() => {
     dispatch(fetchBlogs());
   }, []);
+
+  const deleteBlog = (blogId) => {
+    setDeleteId(blogId);
+    setIsDeleteBlog(true);
+  };
 
   return (
     <div className="display">
@@ -50,7 +53,7 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
                   }}
                 ></Typography>
               </CardContent>
-              {component === "Home" ? (
+              {status.pathname === "/" ? (
                 <CardActions>
                   <Button size="small">Share</Button>
                   <Link to={`/details/${blog.blogId}`}>Read More</Link>
@@ -60,19 +63,22 @@ const MediaCard: FC<WizardProps> = ({ component }) => {
                   <Link to={"/dashboard/EditBlog"} state={{ data: blog }}>
                     Edit
                   </Link>
-                  <Button onClick={() => setIsDeleteBlog(true)}>Delete</Button>
-                  {isDeleteBlog && (
-                    <DeleteBlog
-                      isDeleteBlog={isDeleteBlog}
-                      setIsDeleteBlog={setIsDeleteBlog}
-                      id={blog.blogId}
-                    />
-                  )}
+                  <Button onClick={() => deleteBlog(blog.blogId)}>
+                    Delete
+                  </Button>
                 </CardActions>
               )}
             </Card>
           );
         })}
+
+      {isDeleteBlog && (
+        <DeleteBlog
+          isDeleteBlog={isDeleteBlog}
+          setIsDeleteBlog={setIsDeleteBlog}
+          id={deleteId}
+        />
+      )}
     </div>
   );
 };

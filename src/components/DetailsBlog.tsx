@@ -3,23 +3,29 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { fetchBlogById } from "../services/redux/features/BlogSlice";
 import { useEffect } from "react";
-import Typography from "@mui/material/Typography";
 
 const DetailsBlog: FC = () => {
   let { id } = useParams();
   const dispatch = useAppDispatch();
-  const blogById = useAppSelector((state) => state.blogById);
+  const blogs = useAppSelector((state) => state.blogById);
 
   useEffect(() => {
     dispatch(fetchBlogById({ blogId: id }));
-  }, []);
-  const body = (blogById)=> blogById[0]?.content;
-  const title = (blogById)=> blogById[0]?.title;
+  }, [id,dispatch]);
 
   return (
     <div>
-      <p>Title : {title}</p>
-      <div dangerouslySetInnerHTML={{ __html: body }} />
+      sdfsdf
+      sdfds
+      fdf
+      describe
+      f
+      df
+      d
+      fds
+      fdsf'
+      <p>{`Title : ${blogs?.title}`}</p>
+      <div dangerouslySetInnerHTML={{ __html: blogs?.content }} />
     </div>
   );
 };

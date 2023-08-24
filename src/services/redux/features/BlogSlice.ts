@@ -5,24 +5,20 @@ export interface blogs {
   title: string;
   content: string;
 }
-// export interface blogById {
-//   blogId: string;
-//   title: string;
-//   content: string;
-// }
+export interface blogById {
+  blogId: string;
+  title: string;
+  content: string;
+}
 
 interface BlogState {
   blogs: blogs[];
-  // blogById: blogById[];
-  // isActionState: boolean,
-  // status: string;
+  blogById: blogById;
 }
 
 const initialState = {
   blogs: [],
-  // blogById: [],
-  // isActionState: false,
-  // status: "idle",
+  blogById: <blogById>{},
 } as BlogState;
 
 const URL = "https://domexception.azurewebsites.net/api/Blog";
@@ -62,11 +58,12 @@ export const editBlog = createAsyncThunk(
 );
 
 export const fetchBlogById = createAsyncThunk(
-  "blogs/fetch",
-  async ({ blogId }: { blogId: string }, thunkAPI) => {
+  "blogs/fetchById",
+  async ({ blogId }: { blogId: string|undefined }, thunkAPI) => {
     const response = await fetch(`${URL}/${blogId}`, {
       method: "GET",
     });
+
     const data = response.json();
     return data;
   }
@@ -104,22 +101,25 @@ export const BlogSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBlogs.fulfilled, (state, action) => {
-      state.blogs = [...action.payload];
+      state.blogs = action.payload
+
     });
     builder.addCase(saveBlog.fulfilled, (state, action) => {
       state.blogs.push(action.payload);
     });
-    // builder.addCase(fetchBlogById.fulfilled, (state, action) => {
-    //   state.blogs.push(action.payload);
-    // });
+    builder.addCase(fetchBlogById.fulfilled, (state, action) => {
+      state.blogById = action.payload;
+    });
     builder.addCase(editBlog.fulfilled, (state, action) => {
       state.blogs.push(action.payload);
     });
     builder.addCase(deleteBlog.fulfilled, (state, action) => {
+      
       let index = state.blogs.findIndex(
         ({ blogId }) => blogId === action.payload?.blogId
       );
       state.blogs.splice(index, 1);
+     
     });
   },
 });

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FC, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
 import { deleteBlog } from "../services/redux/features/BlogSlice";
 import AlertDialog from "./sharedCompinents/AlertDialog";
@@ -43,7 +42,6 @@ const DeleteBlog: FC<WizardProps> = ({ setIsDeleteBlog, id }) => {
           staticData={staticData}
           setIsDeleted={setIsDeleted}
           setIsDeleteBlog={setIsDeleteBlog}
-          // id={id}
         />
       )}
     </div>

@@ -8,17 +8,12 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import "./dashboardBlog.scss";
-import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
-import DisplayBlogs from "../DisplayBlogs";
-import TinyEditor from "../sharedCompinents/TinyEditor";
-import { MenuItem } from "@mui/base";
-import { MenuList } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -34,7 +29,8 @@ const DashboardBlog: FC = () => {
     {
       text: "Display blogs",
       icon: <MailIcon />,
-      onClick: () => navigate("/dashboard/DisplayBlogs"),
+      onClick: () =>
+        navigate("/dashboard/DisplayBlogs"),
     },
     {
       text: "Create blog",

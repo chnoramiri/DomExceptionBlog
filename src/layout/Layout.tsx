@@ -10,7 +10,7 @@ const Layout: FC = () => {
     <>
       <Header />
       <Outlet />
-      <DisplayBlog component="Home" />
+      {/* <DisplayBlog component="Home" /> */}
       <Footer />
     </>
   );

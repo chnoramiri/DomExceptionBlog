@@ -5,8 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useAppDispatch } from "../../services/redux/store/store";
-import { deleteBlog } from "../../services/redux/features/BlogSlice";
+
 
 interface deleteProps {
   showDialog: boolean;
@@ -24,10 +23,10 @@ const AlertDialog: React.FC<deleteProps> = ({
   staticData,
 }) => {
   const handleClose = (key) => {
-    if (key == "yes") {
+    if (key === "yes") {
       setShowDialog(false);
       setIsDeleted(true);
-    } else if (key == "cancel") {
+    } else if (key === "cancel") {
       setShowDialog(false);
       setIsDeleteBlog(false);
     }
