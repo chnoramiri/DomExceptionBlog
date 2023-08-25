@@ -3,8 +3,9 @@ html,body,#root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  
- 
+  box-sizing: border-box;
+  // column-gap: 100px;
+
 }
 .display{
 display: flex;
@@ -12,6 +13,8 @@ justify-content: center;
 flex-wrap: wrap;
 row-gap: 30px;
 column-gap: 30px;
+align-items: center;
+margin: auto;
 }
 .card{
   width: 350px;

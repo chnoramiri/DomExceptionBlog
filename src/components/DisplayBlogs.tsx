@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
 import { dialogAction, fetchBlogs } from "../services/redux/features/BlogSlice";
 import DeleteBlog from "./DeleteBlog";
-import CustomizedSnackbars from "./sharedCompinents/CustomizedSnackbars";
+import CustomizedSnackbars from "./sharedComponents/CustomizedSnackbars";
 
 const MediaCard: FC = () => {
   const dispatch = useAppDispatch();

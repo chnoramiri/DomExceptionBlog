@@ -1,4 +1,4 @@
-import TinyEditor from "./sharedCompinents/TinyEditor";
+import TinyEditor from "./sharedComponents/TinyEditor";
 import React, { useState, FC } from "react";
 import {
   editBlog,
@@ -7,7 +7,7 @@ import {
 } from "../services/redux/features/BlogSlice";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { useLocation, useNavigate } from "react-router-dom";
-import CustomizedSnackbars from "./sharedCompinents/CustomizedSnackbars";
+import CustomizedSnackbars from "./sharedComponents/CustomizedSnackbars";
 
 const EditBlog: FC = () => {
   const location = useLocation();

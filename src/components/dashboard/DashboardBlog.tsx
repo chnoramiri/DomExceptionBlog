@@ -61,7 +61,7 @@ const DashboardBlog: FC = () => {
       >
         <Toolbar />
         <Divider />
-        <List>
+        <List >
           {itemsList.map((item, index) => {
             const { text, icon, onClick } = item;
             return (
@@ -73,7 +73,7 @@ const DashboardBlog: FC = () => {
           })}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: "#f9fafb", p: 6 }}>
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "#f9fafb", p: 6 }} >
         <Toolbar />
       </Box>
     </Box>

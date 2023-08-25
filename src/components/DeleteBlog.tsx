@@ -8,7 +8,7 @@ import {
   snackbarAction,
   snackbarMessage,
 } from "../services/redux/features/BlogSlice";
-import AlertDialog from "./sharedCompinents/AlertDialog";
+import AlertDialog from "./sharedComponents/AlertDialog";
 
 interface WizardProps {
   id: string;

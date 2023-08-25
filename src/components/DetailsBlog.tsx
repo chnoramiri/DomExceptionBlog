@@ -1,9 +1,9 @@
+import "./DetailsBlog.scss";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { fetchBlogById } from "../services/redux/features/BlogSlice";
 import { useEffect } from "react";
-import "./DetailsBlog.scss";
 import { Grid, Typography } from "@mui/material";
 
 const DetailsBlog: FC = () => {
@@ -16,9 +16,13 @@ const DetailsBlog: FC = () => {
   }, [id, dispatch]);
 
   return (
-    <Grid container className="detailGrid" >
-      <Typography className="display">{blogs?.title}</Typography>
-      <Grid container className='content'>
+    <Grid container className="detail">
+      {/* <Grid item> */}
+      <Typography variant="h3" className="display">
+        {blogs?.title}
+      </Typography>
+      {/* </Grid> */}
+      <Grid item className="content">
       <Typography dangerouslySetInnerHTML={{ __html: blogs?.content }} />
       </Grid>
     </Grid>
