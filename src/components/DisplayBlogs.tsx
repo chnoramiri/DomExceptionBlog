@@ -10,14 +10,16 @@ import blog1 from "../assets/images/blog1.jpg";
 import { FC, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
-import { fetchBlogs, deleteBlog } from "../services/redux/features/BlogSlice";
+import { dialogAction, fetchBlogs } from "../services/redux/features/BlogSlice";
 import DeleteBlog from "./DeleteBlog";
+import CustomizedSnackbars from "./sharedCompinents/CustomizedSnackbars";
 
 const MediaCard: FC = () => {
   const dispatch = useAppDispatch();
   const status = useLocation();
   const blogs = useAppSelector((state) => state.blogs);
-  const [isDeleteBlog, setIsDeleteBlog] = useState(false);
+  const setSnackbar = useAppSelector((state) => state.setSnackbar);
+  const snackbarMessage = useAppSelector((state) => state.message);
   const [deleteId, setDeleteId] = useState("");
 
   useEffect(() => {
@@ -26,9 +28,8 @@ const MediaCard: FC = () => {
 
   const deleteBlog = (blogId) => {
     setDeleteId(blogId);
-    setIsDeleteBlog(true);
+    dispatch(dialogAction());
   };
-
   return (
     <div className="display">
       {blogs &&
@@ -71,14 +72,8 @@ const MediaCard: FC = () => {
             </Card>
           );
         })}
-
-      {isDeleteBlog && (
-        <DeleteBlog
-          isDeleteBlog={isDeleteBlog}
-          setIsDeleteBlog={setIsDeleteBlog}
-          id={deleteId}
-        />
-      )}
+      {setSnackbar && <CustomizedSnackbars message={snackbarMessage} />}
+      {deleteId && <DeleteBlog id={deleteId} />}
     </div>
   );
 };

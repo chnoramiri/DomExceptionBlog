@@ -1,34 +1,34 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../services/redux/store/store";
+import { dialogAction } from "../../services/redux/features/BlogSlice";
+import DialogActions from "@mui/material/DialogActions";
 
 interface deleteProps {
-  showDialog: boolean;
   setIsDeleted: (val: boolean) => void;
-  setShowDialog: (val: boolean) => void;
-  setIsDeleteBlog: (val: boolean) => void;
   staticData: { title: string; message: string; btn1: string; btn2: string };
 }
 
 const AlertDialog: React.FC<deleteProps> = ({
-  showDialog,
   setIsDeleted,
-  setShowDialog,
-  setIsDeleteBlog,
   staticData,
 }) => {
+  const dispatch = useAppDispatch();
+  const setDialog = useAppSelector((state) => state.setDialog);
+
   const handleClose = (key) => {
-    if (key === "yes") {
-      setShowDialog(false);
+    if (key === "Yes") {
+      dispatch(dialogAction());
       setIsDeleted(true);
-    } else if (key === "cancel") {
-      setShowDialog(false);
-      setIsDeleteBlog(false);
+    } else if (key === "Cancel") {
+      dispatch(dialogAction());
     }
   };
 
@@ -36,7 +36,7 @@ const AlertDialog: React.FC<deleteProps> = ({
   return (
     <div>
       <Dialog
-        open={showDialog}
+        open={setDialog}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

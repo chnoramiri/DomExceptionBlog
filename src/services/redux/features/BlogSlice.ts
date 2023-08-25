@@ -14,11 +14,17 @@ export interface blogById {
 interface BlogState {
   blogs: blogs[];
   blogById: blogById;
+  setSnackbar:boolean
+  setDialog:boolean
+  message:string
 }
 
 const initialState = {
   blogs: [],
   blogById: <blogById>{},
+  setSnackbar:false,
+  setDialog:false,
+  message:'',
 } as BlogState;
 
 const URL = "https://domexception.azurewebsites.net/api/Blog";
@@ -95,9 +101,16 @@ export const BlogSlice = createSlice({
   name: "blogs",
   initialState,
   reducers: {
-    // isAction: (state) => {
-    //   state.isActionState=true
-    // },
+    snackbarAction: (state) => {
+      state.setSnackbar=!state.setSnackbar
+    },
+    dialogAction: (state) => {
+      state.setDialog=!state.setDialog
+    },
+    snackbarMessage: (state,action) => {
+     state.message= action.payload
+    },
+
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBlogs.fulfilled, (state, action) => {
@@ -123,5 +136,5 @@ export const BlogSlice = createSlice({
     });
   },
 });
-// export const {isAction}=BlogSlice.actions
+export const {snackbarAction,dialogAction,snackbarMessage}=BlogSlice.actions
 export default BlogSlice.reducer;

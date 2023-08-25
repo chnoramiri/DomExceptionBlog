@@ -1,48 +1,49 @@
 import * as React from "react";
 import { FC, useEffect, useState } from "react";
-import { useAppDispatch } from "../services/redux/store/store";
-import { deleteBlog } from "../services/redux/features/BlogSlice";
+import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
+import {
+  deleteBlog,
+  dialogAction,
+  fetchBlogs,
+  snackbarAction,
+  snackbarMessage,
+} from "../services/redux/features/BlogSlice";
 import AlertDialog from "./sharedCompinents/AlertDialog";
 
 interface WizardProps {
   id: string;
-  isDeleteBlog: boolean;
-  setIsDeleteBlog: (val: boolean) => void;
 }
 
-const DeleteBlog: FC<WizardProps> = ({ setIsDeleteBlog, id }) => {
-  const [showDialog, setShowDialog] = useState(false);
+const DeleteBlog: FC<WizardProps> = ({ id }) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const dispatch = useAppDispatch();
+  const setDialog = useAppSelector((state) => state.setDialog);
 
   useEffect(() => {
-    setShowDialog(true);
-  }, [showDialog]);
+    dispatch(dialogAction());
+  }, []);
 
   useEffect(() => {
     if (isDeleted === true) {
       dispatch(deleteBlog({ blogId: id }));
-      setIsDeleteBlog(false);
+      dispatch(snackbarMessage( "blog has been deleted"))
+      dispatch(snackbarAction());
+      dispatch(fetchBlogs());
+
     }
-  }, [isDeleted, dispatch, setIsDeleteBlog, id]);
+  }, [dispatch, id,isDeleted]);
 
   const staticData = {
     title: "Confirmation of delete",
-    message: "Are you sure",
-    btn1: "yes",
-    btn2: "cancel",
+    message: "Are you sure?",
+    btn1: "Yes",
+    btn2: "Cancel",
   };
 
   return (
     <div>
-      {showDialog && (
-        <AlertDialog
-          showDialog={showDialog}
-          setShowDialog={setShowDialog}
-          staticData={staticData}
-          setIsDeleted={setIsDeleted}
-          setIsDeleteBlog={setIsDeleteBlog}
-        />
+      {setDialog && (
+        <AlertDialog staticData={staticData} setIsDeleted={setIsDeleted} />
       )}
     </div>
   );

@@ -1,16 +1,19 @@
 import TinyEditor from "./sharedCompinents/TinyEditor";
 import React, { useState, FC } from "react";
-import { saveBlog } from "../services/redux/features/BlogSlice";
+import {
+  saveBlog,
+  fetchBlogs,
+  snackbarAction,
+  snackbarMessage,
+} from "../services/redux/features/BlogSlice";
 import { useAppDispatch } from "../services/redux/store/store";
-import CustomizedSnackbars from "./sharedCompinents/CustomizedSnackbars";
 import { useNavigate } from "react-router-dom";
 
 const CreateBlog: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const navigate = useNavigate();
 
   const submit = (e) => {
     e.preventDefault();
@@ -20,8 +23,11 @@ const CreateBlog: FC = () => {
         content: content,
       })
     );
-    setOpenSnackbar(true);
+
+    dispatch(fetchBlogs);
     navigate("/dashboard/DisplayBlogs");
+    dispatch(snackbarMessage( "blog has been created"))
+    dispatch(snackbarAction());
   };
 
   return (
@@ -42,17 +48,8 @@ const CreateBlog: FC = () => {
           required
         />
         <TinyEditor setContent={setContent} />
-        <button type="submit" disabled={openSnackbar}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
-      {openSnackbar && (
-        <CustomizedSnackbars
-          openSnackbar={openSnackbar}
-          setOpenSnackbar={setOpenSnackbar}
-          message="blog has been created"
-        />
-      )}
     </>
   );
 };

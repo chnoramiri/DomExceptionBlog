@@ -1,0 +1,14 @@
+.detailGrid {
+//   display: flex;
+//   justify-content: center;
+  margin-top:100px;
+
+}
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* vh refers to viewport height. Very useful! */
+    height: 100vh;
+    width: 100%;
+}

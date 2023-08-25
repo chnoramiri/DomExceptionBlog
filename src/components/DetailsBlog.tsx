@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { fetchBlogById } from "../services/redux/features/BlogSlice";
 import { useEffect } from "react";
+import "./DetailsBlog.scss";
+import { Grid, Typography } from "@mui/material";
 
 const DetailsBlog: FC = () => {
   let { id } = useParams();
@@ -11,22 +13,15 @@ const DetailsBlog: FC = () => {
 
   useEffect(() => {
     dispatch(fetchBlogById({ blogId: id }));
-  }, [id,dispatch]);
+  }, [id, dispatch]);
 
   return (
-    <div>
-      sdfsdf
-      sdfds
-      fdf
-      describe
-      f
-      df
-      d
-      fds
-      fdsf'
-      <p>{`Title : ${blogs?.title}`}</p>
-      <div dangerouslySetInnerHTML={{ __html: blogs?.content }} />
-    </div>
+    <Grid container className="detailGrid" >
+      <Typography className="display">{blogs?.title}</Typography>
+      <Grid container className='content'>
+      <Typography dangerouslySetInnerHTML={{ __html: blogs?.content }} />
+      </Grid>
+    </Grid>
   );
 };
 export default DetailsBlog;

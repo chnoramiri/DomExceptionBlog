@@ -1,7 +1,11 @@
 import TinyEditor from "./sharedCompinents/TinyEditor";
 import React, { useState, FC } from "react";
-import { editBlog } from "../services/redux/features/BlogSlice";
-import { useAppDispatch } from "../services/redux/store/store";
+import {
+  editBlog,
+  snackbarAction,
+  snackbarMessage,
+} from "../services/redux/features/BlogSlice";
+import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomizedSnackbars from "./sharedCompinents/CustomizedSnackbars";
 
@@ -12,7 +16,7 @@ const EditBlog: FC = () => {
   const [title, setTitle] = useState(data?.title);
   const [content, setContent] = useState("");
   const dispatch = useAppDispatch();
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const setSnackbar = useAppSelector((state) => state.setSnackbar);
 
   const submit = (e) => {
     e.preventDefault();
@@ -23,8 +27,9 @@ const EditBlog: FC = () => {
         content: content,
       })
     );
-    setOpenSnackbar(true);
     navigate("/dashboard/DisplayBlogs");
+    dispatch(snackbarMessage("blog has been edited"));
+    dispatch(snackbarAction());
   };
 
   return (
@@ -47,13 +52,7 @@ const EditBlog: FC = () => {
         <TinyEditor data={data} setContent={setContent} />
         <button type="submit">Submit</button>
       </form>
-      {openSnackbar && (
-        <CustomizedSnackbars
-          openSnackbar={openSnackbar}
-          setOpenSnackbar={setOpenSnackbar}
-          message="blog has been edited"
-        />
-      )}
+      {setSnackbar && <CustomizedSnackbars message="blog has been edited" />}
     </>
   );
 };

@@ -21,11 +21,7 @@ const DashboardBlog: FC = () => {
   const navigate = useNavigate();
 
   const itemsList = [
-    {
-      text: "dashboard",
-      icon: <InboxIcon />,
-      onClick: () => navigate("/dashboard"),
-    },
+   
     {
       text: "Display blogs",
       icon: <MailIcon />,
