@@ -1,6 +1,15 @@
 .css-1f2xuhi-MuiDrawer-docked .MuiDrawer-paper {
-    background-color: #f9fafb;
+  background-color: #f9fafb;
 }
-.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {color: #212B36 !important;
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  color: #212b36 !important;
+}
 
+.preiview {
+  padding: 20px 16px;
+  cursor: pointer;
+}
+.homeIcon{
+  min-width: 56px;
+  color: rgba(0, 0, 0, 0.54);
 }

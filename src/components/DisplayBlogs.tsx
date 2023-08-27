@@ -10,29 +10,38 @@ import blog1 from "../assets/images/blog1.jpg";
 import { FC, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store/store";
-import { dialogAction, fetchBlogs } from "../services/redux/features/BlogSlice";
+import {
+  setDialogToggle,
+  fetchBlogs,
+} from "../services/redux/features/BlogSlice";
 import DeleteBlog from "./DeleteBlog";
 import CustomizedSnackbars from "./sharedComponents/CustomizedSnackbars";
+import { Grid } from "@mui/material";
 
 const MediaCard: FC = () => {
   const dispatch = useAppDispatch();
   const status = useLocation();
   const blogs = useAppSelector((state) => state.blogs);
-  const setSnackbar = useAppSelector((state) => state.setSnackbar);
-  const snackbarMessage = useAppSelector((state) => state.message);
+  const snackbarToggle = useAppSelector((state) => state.snackbarToggle);
+  const loading = useAppSelector((state) => state.loading);
   const [deleteId, setDeleteId] = useState("");
 
   useEffect(() => {
     dispatch(fetchBlogs());
-  }, []);
+  }, [dispatch]);
 
   const deleteBlog = (blogId) => {
     setDeleteId(blogId);
-    dispatch(dialogAction());
+    dispatch(setDialogToggle());
   };
+
   return (
-    <div className="display">
-      {blogs &&
+    <Grid container className="display">
+      {loading && !blogs ? (
+        <Grid container justifyContent="center">
+          <Typography variant="h5">Loading...</Typography>
+        </Grid>
+      ) : (
         blogs.map((blog, index) => {
           return (
             <Card sx={{ maxWidth: 345 }} className="card" key={index}>
@@ -43,14 +52,14 @@ const MediaCard: FC = () => {
                   variant="h5"
                   component="div"
                   dangerouslySetInnerHTML={{
-                    __html: blog.title.substring(0, 30),
+                    __html: blog.title?.substring(0, 30),
                   }}
                 ></Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   dangerouslySetInnerHTML={{
-                    __html: blog.content.substring(0, 50),
+                    __html: blog.content?.substring(0, 50),
                   }}
                 ></Typography>
               </CardContent>
@@ -71,10 +80,19 @@ const MediaCard: FC = () => {
               )}
             </Card>
           );
-        })}
-      {setSnackbar && <CustomizedSnackbars message={snackbarMessage} />}
-      {deleteId && <DeleteBlog id={deleteId} />}
-    </div>
+        })
+      )}
+      {!loading && !blogs ? (
+        <Grid container justifyContent="center">
+          <Typography variant="h5">There is no blog ...</Typography>
+        </Grid>
+      ) : (
+        ""
+      )}
+
+      {snackbarToggle && <CustomizedSnackbars type="success" />}
+      {deleteId && <DeleteBlog id={deleteId} setDeleteId={setDeleteId} />}
+    </Grid>
   );
 };
 export default MediaCard;

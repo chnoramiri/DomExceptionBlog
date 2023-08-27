@@ -10,7 +10,7 @@ import CopyrightIcon from "@mui/icons-material/Copyright";
 
 const Footer: FC = () => {
   return (
-    <Grid className="footer">
+    <Grid container className="footer">
       <Grid className="context">
         <CopyrightIcon fontSize="small" />
         <Typography>Dom Exception</Typography>

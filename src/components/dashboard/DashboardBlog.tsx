@@ -10,10 +10,12 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import AodIcon from "@mui/icons-material/Aod";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import HomeIcon from "@mui/icons-material/Home";
 import "./dashboardBlog.scss";
 import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -21,16 +23,14 @@ const DashboardBlog: FC = () => {
   const navigate = useNavigate();
 
   const itemsList = [
-   
     {
       text: "Display blogs",
-      icon: <MailIcon />,
-      onClick: () =>
-        navigate("/dashboard/DisplayBlogs"),
+      icon: <AodIcon />,
+      onClick: () => navigate("/dashboard/DisplayBlogs"),
     },
     {
       text: "Create blog",
-      icon: <MailIcon />,
+      icon: <NoteAddIcon />,
       onClick: () => navigate("/dashboard/CreateBlog"),
     },
   ];
@@ -41,11 +41,11 @@ const DashboardBlog: FC = () => {
         position="fixed"
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       >
-        <Toolbar>
+        {/* <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Permanent drawer
+            Dashboard
           </Typography>
-        </Toolbar>
+        </Toolbar> */}
       </AppBar>
       <Drawer
         sx={{
@@ -59,9 +59,17 @@ const DashboardBlog: FC = () => {
         variant="permanent"
         anchor="left"
       >
-        <Toolbar />
+        <Grid container className="preiview">
+          <Grid className="homeIcon">
+            <HomeIcon />
+          </Grid>
+
+          <Grid>
+            <Typography onClick={()=>navigate("/")}>Blogs Preiview</Typography>
+          </Grid>
+        </Grid>
         <Divider />
-        <List >
+        <List>
           {itemsList.map((item, index) => {
             const { text, icon, onClick } = item;
             return (
@@ -73,7 +81,7 @@ const DashboardBlog: FC = () => {
           })}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: "#f9fafb", p: 6 }} >
+      <Box component="main" style={{margin:'20px 0'}}>
         <Toolbar />
       </Box>
     </Box>

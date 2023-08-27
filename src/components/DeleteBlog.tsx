@@ -3,35 +3,44 @@ import { FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import {
   deleteBlog,
-  dialogAction,
+  setDialogToggle,
   fetchBlogs,
-  snackbarAction,
-  snackbarMessage,
+  setSnackbarToggle,
+  setSnackbarMessage,
+  reset,
 } from "../services/redux/features/BlogSlice";
 import AlertDialog from "./sharedComponents/AlertDialog";
 
 interface WizardProps {
   id: string;
+  setDeleteId: (val: string) => void;
 }
 
-const DeleteBlog: FC<WizardProps> = ({ id }) => {
+const DeleteBlog: FC<WizardProps> = ({ id, setDeleteId }) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const dispatch = useAppDispatch();
-  const setDialog = useAppSelector((state) => state.setDialog);
+  const dialogToggle = useAppSelector((state) => state.dialogToggle);
+  const loading = useAppSelector((state) => state.loading);
+  const error = useAppSelector((state) => state.error);
 
   useEffect(() => {
-    dispatch(dialogAction());
+    dispatch(setDialogToggle());
   }, []);
 
   useEffect(() => {
     if (isDeleted === true) {
       dispatch(deleteBlog({ blogId: id }));
-      dispatch(snackbarMessage( "blog has been deleted"))
-      dispatch(snackbarAction());
-      dispatch(fetchBlogs());
-
+      if (error) {
+        dispatch(reset());
+      }
+      if (!error) {
+        dispatch(setSnackbarToggle());
+        dispatch(fetchBlogs());
+        dispatch(setSnackbarMessage("blog has been deleted"));
+        setDeleteId("");
+      }
     }
-  }, [dispatch, id,isDeleted]);
+  }, [dispatch, id, isDeleted]);
 
   const staticData = {
     title: "Confirmation of delete",
@@ -42,7 +51,7 @@ const DeleteBlog: FC<WizardProps> = ({ id }) => {
 
   return (
     <div>
-      {setDialog && (
+      {dialogToggle && (
         <AlertDialog staticData={staticData} setIsDeleted={setIsDeleted} />
       )}
     </div>

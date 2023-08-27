@@ -8,7 +8,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../services/redux/store/store";
-import { dialogAction } from "../../services/redux/features/BlogSlice";
+import { setDialogToggle } from "../../services/redux/features/BlogSlice";
 import DialogActions from "@mui/material/DialogActions";
 
 interface deleteProps {
@@ -16,19 +16,16 @@ interface deleteProps {
   staticData: { title: string; message: string; btn1: string; btn2: string };
 }
 
-const AlertDialog: React.FC<deleteProps> = ({
-  setIsDeleted,
-  staticData,
-}) => {
+const AlertDialog: React.FC<deleteProps> = ({ setIsDeleted, staticData }) => {
   const dispatch = useAppDispatch();
-  const setDialog = useAppSelector((state) => state.setDialog);
+  const dialogToggle = useAppSelector((state) => state.dialogToggle);
 
   const handleClose = (key) => {
     if (key === "Yes") {
-      dispatch(dialogAction());
+      dispatch(setDialogToggle());
       setIsDeleted(true);
     } else if (key === "Cancel") {
-      dispatch(dialogAction());
+      dispatch(setDialogToggle());
     }
   };
 
@@ -36,7 +33,7 @@ const AlertDialog: React.FC<deleteProps> = ({
   return (
     <div>
       <Dialog
-        open={setDialog}
+        open={dialogToggle}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

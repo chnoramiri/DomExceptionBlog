@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 
 const Header: FC = () => {
   return (
-    <Grid className="header">
+    <Grid container className="header">
       <img src={logo} alt="logo" width="150px" height="auto" />
       <Typography variant="h6" component="h6">
         Login

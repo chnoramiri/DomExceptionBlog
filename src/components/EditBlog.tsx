@@ -1,22 +1,31 @@
 import TinyEditor from "./sharedComponents/TinyEditor";
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import {
   editBlog,
-  snackbarAction,
-  snackbarMessage,
+  reset,
+  setSnackbarToggle,
+  setSnackbarMessage,
 } from "../services/redux/features/BlogSlice";
 import { useAppDispatch, useAppSelector } from "../services/redux/store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomizedSnackbars from "./sharedComponents/CustomizedSnackbars";
+import { fetchBlogs } from "../services/redux/features/BlogSlice";
 
 const EditBlog: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const data = location.state?.data;
   const [title, setTitle] = useState(data?.title);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(data?.content);
   const dispatch = useAppDispatch();
-  const setSnackbar = useAppSelector((state) => state.setSnackbar);
+  const snackbarToggle = useAppSelector((state) => state.snackbarToggle);
+  const error = useAppSelector((state) => state.error);
+  const blogs = useAppSelector((state) => state.blogs);
+
+  useEffect(() => {
+    dispatch(setSnackbarToggle());
+    dispatch(setSnackbarMessage(error));
+  }, [dispatch, error]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -27,9 +36,18 @@ const EditBlog: FC = () => {
         content: content,
       })
     );
-    navigate("/dashboard/DisplayBlogs");
-    dispatch(snackbarMessage("blog has been edited"));
-    dispatch(snackbarAction());
+    if (error) {
+      dispatch(reset());
+    }
+    if (title && content) {
+      dispatch(setSnackbarToggle());
+      dispatch(setSnackbarMessage("blog has been edited"));
+      dispatch(fetchBlogs());
+      navigate("/dashboard/DisplayBlogs");
+    } else {
+      dispatch(setSnackbarToggle());
+      dispatch(setSnackbarMessage(error));
+    }
   };
 
   return (
@@ -52,7 +70,7 @@ const EditBlog: FC = () => {
         <TinyEditor data={data} setContent={setContent} />
         <button type="submit">Submit</button>
       </form>
-      {setSnackbar && <CustomizedSnackbars message="blog has been edited" />}
+      {snackbarToggle ? <CustomizedSnackbars type="error" /> : ""}
     </>
   );
 };

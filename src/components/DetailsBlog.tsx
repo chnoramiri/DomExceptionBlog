@@ -17,13 +17,13 @@ const DetailsBlog: FC = () => {
 
   return (
     <Grid container className="detail">
-      {/* <Grid item> */}
-      <Typography variant="h3" className="display">
-        {blogs?.title}
-      </Typography>
-      {/* </Grid> */}
+      <Grid container justifyContent="center">
+        <Typography variant="h3" className="display">
+          {blogs?.title}
+        </Typography>
+      </Grid>
       <Grid item className="content">
-      <Typography dangerouslySetInnerHTML={{ __html: blogs?.content }} />
+        <Typography dangerouslySetInnerHTML={{ __html: blogs?.content }} />
       </Grid>
     </Grid>
   );
