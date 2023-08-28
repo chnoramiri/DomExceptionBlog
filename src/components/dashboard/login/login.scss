@@ -1,0 +1,25 @@
+.loginP1 {
+  background-color: #fbfcfb;
+//   display: flex;
+// justify-content: center;
+}
+.loginP2 {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.loginP2 :first-child {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column !important;
+  row-gap: 30px;
+}
+.loginIMG{
+    max-width: 100%;
+  height: auto;
+  background-position: center center;
+
+}

@@ -34,7 +34,6 @@ const MediaCard: FC = () => {
     setDeleteId(blogId);
     dispatch(setDialogToggle());
   };
-console.log(loading)
   return (
     <Grid container className="display">
       {loading ? (
