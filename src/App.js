@@ -14,36 +14,12 @@ import EditBlog from "./components/EditBlog";
 import DeleteBlog from "./components/DeleteBlog";
 
 export function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<Root />}>
-        <Route  path="/" element={<Layout />}>
-          <Route index element={<DisplayBlogs />} />
-          <Route path="/details/:id" element={<DetailsBlog />} />
-          <Route path="/deleteBlog" element={<DeleteBlog />} />
-        </Route>
-        <Route path="/dashboard" element={<DashboardRoot />}>
-          <Route path="/dashboard/CreateBlog" element={<CreateBlog />} />
-          <Route path="/dashboard/DisplayBlogs" element={<DisplayBlogs />} />
-          <Route path="/dashboard/EditBlog" element={<EditBlog />} />
-        </Route>
-      </Route>
-    )
-  );
-
   return (
     <>
       <RouterProvider router={router}></RouterProvider>
     </>
   );
 }
-const Root = () => {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
-};
 const DashboardRoot = () => {
   return (
     <>
@@ -52,3 +28,22 @@ const DashboardRoot = () => {
     </>
   );
 };
+
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Outlet />}>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<DisplayBlogs />} />
+        <Route path="/details/:id" element={<DetailsBlog />} />
+        <Route path="/deleteBlog" element={<DeleteBlog />} />
+      </Route>
+      <Route path="/dashboard" element={<DashboardRoot />}>
+        <Route path="/dashboard/CreateBlog" element={<CreateBlog />} />
+        <Route path="/dashboard/DisplayBlogs" element={<DisplayBlogs />} />
+        <Route path="/dashboard/EditBlog" element={<EditBlog />} />
+      </Route>
+    </Route>
+  )
+);
+
+

@@ -21,7 +21,7 @@ interface BlogState {
   error: any;
 }
 
-const initialState = {
+export const initialState = {
   blogs: [],
   blogById: <blogById>{},
   snackbarToggle: false,
@@ -110,7 +110,7 @@ export const fetchBlogs = createAsyncThunk(
       // }
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue({ error: error.message });
+      return rejectWithValue(error.message );
     }
   }
 );
