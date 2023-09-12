@@ -1,19 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export interface blogs {
-  blogId: string;
-  title: string;
-  content: string;
-}
-export interface blogById {
+export interface Blog {
   blogId: string;
   title: string;
   content: string;
 }
 
+
 interface BlogState {
-  blogs: blogs[];
-  blogById: blogById;
+  blogs: Blog[];
+  blogById: Blog;
   snackbarToggle: boolean;
   dialogToggle: boolean;
   snackbarMessage: string;
@@ -23,7 +19,7 @@ interface BlogState {
 
 export const initialState = {
   blogs: [],
-  blogById: <blogById>{},
+  blogById: <Blog>{},
   snackbarToggle: false,
   dialogToggle: false,
   snackbarMessage: "",
@@ -146,7 +142,7 @@ export const BlogSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.loading = false;
-      state.error = "";
+      state.error = undefined;
     },
     setSnackbarToggle: (state) => {
       state.snackbarToggle = !state.snackbarToggle;
@@ -170,7 +166,7 @@ export const BlogSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(fetchBlogs.rejected, (state, action) => {
-      state.error = action.payload;
+      state.error = `Failed to fetch blogs: ${action.error.message}`;
       state.loading = false;
       state.blogs = [];
     });
@@ -180,7 +176,7 @@ export const BlogSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(saveBlog.fulfilled, (state, action) => {
-      state.blogs.push(action.payload);
+      state.blogs = [...state.blogs, action.payload];
       state.loading = false;
     });
     builder.addCase(saveBlog.rejected, (state, action) => {
