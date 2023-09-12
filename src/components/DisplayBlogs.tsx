@@ -34,6 +34,7 @@ const MediaCard: FC = () => {
     setDeleteId(blogId);
     dispatch(setDialogToggle());
   };
+
   return (
     <Grid container className="display">
       {loading ? (
@@ -81,7 +82,7 @@ const MediaCard: FC = () => {
           );
         })
       )}
-      {!loading && !blogs ?  (
+      {!loading && !blogs ? (
         <Grid container justifyContent="center">
           <Typography variant="h5">There is no blog ...</Typography>
         </Grid>

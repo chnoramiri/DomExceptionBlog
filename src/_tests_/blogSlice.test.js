@@ -83,7 +83,7 @@ describe("blogs async actions", () => {
     const store = mockStore({});
 
     const mockRequestData = {
-      blogId: 1,
+      // blogId: 1,
       title: "updated blog title",
       content: "updated content for the blog",
     };
@@ -111,7 +111,7 @@ describe("blogs async actions", () => {
     expect(actions[1].payload).toEqual(mockResponse);
 
     expect(global.fetch).toHaveBeenCalledWith(
-      `https://domexception.azurewebsites.net/api/Blog/${mockRequestData.blogId}`,
+      `https://domexception.azurewebsites.net/api/Blog`,
       {
         method: "PUT",
         headers: {

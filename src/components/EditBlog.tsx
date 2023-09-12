@@ -42,7 +42,6 @@ const EditBlog: FC = () => {
     if (title && content) {
       dispatch(setSnackbarToggle());
       dispatch(setSnackbarMessage("blog has been edited"));
-      dispatch(fetchBlogs());
       navigate("/dashboard/DisplayBlogs");
     } else {
       dispatch(setSnackbarToggle());

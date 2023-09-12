@@ -59,17 +59,16 @@ export const editBlog = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetch(`${URL}/${blogId}`, {
+      const response = await fetch(`${URL}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ blogId, title, content }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData);
       }
-
       const data = await response.json();
       return data;
     } catch (error) {
@@ -207,9 +206,13 @@ export const BlogSlice = createSlice({
     ////////////////////////////EditBlog//////////////////////////
     builder.addCase(editBlog.pending, (state) => {
       state.loading = true;
+      state.error = "";
     });
     builder.addCase(editBlog.fulfilled, (state, action) => {
-      state.blogs.push(action.payload);
+      state.blogs = state.blogs.map((blog) =>
+      blog.blogId === action.payload.blogId ? action.payload : blog
+    );
+
       state.loading = false;
       state.error = "";
     });
