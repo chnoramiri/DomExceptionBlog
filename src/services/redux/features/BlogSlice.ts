@@ -6,7 +6,6 @@ export interface Blog {
   content: string;
 }
 
-
 interface BlogState {
   blogs: Blog[];
   blogById: Blog;
@@ -31,15 +30,20 @@ const URL = "https://domexception.azurewebsites.net/api/Blog";
 
 export const deleteBlog = createAsyncThunk(
   "blogs/delete",
-  async ({ blogId }: { blogId: string }, thunkAPI) => {
+  async ({ blogId }: { blogId: string }, { rejectWithValue }) => {
     try {
-      await fetch(`${URL}/${blogId}`, {
+      const response = await fetch(`${URL}/${blogId}`, {
         method: "DELETE",
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
+      }
+
       return { blogId };
-      
     } catch (error) {
-      thunkAPI.rejectWithValue(error);
+      return rejectWithValue({ error: error.message });
     }
   }
 );
@@ -52,21 +56,24 @@ export const editBlog = createAsyncThunk(
       title,
       content,
     }: { blogId: string; title: string; content: string },
-    { rejectWithValue, fulfillWithValue }
+    { rejectWithValue }
   ) => {
     try {
-      var response = await fetch(`${URL}`, {
+      const response = await fetch(`${URL}/${blogId}`, {
         method: "PUT",
-        headers: { "content-type": "text/json" },
-        body: JSON.stringify({ blogId, title, content }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content }),
       });
-      const data = await response.json();
-      if (data.status !== 200) {
-        return rejectWithValue(data.detail);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
       }
-      return fulfillWithValue(data);
-    } catch (err) {
-      return rejectWithValue(err.response.data);
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue({ error: error.message });
     }
   }
 );
@@ -106,7 +113,7 @@ export const fetchBlogs = createAsyncThunk(
       // }
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message );
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -118,20 +125,20 @@ export const saveBlog = createAsyncThunk(
     { rejectWithValue, fulfillWithValue }
   ) => {
     try {
-      // debugger
       const response = await fetch(`${URL}`, {
         method: "POST",
         headers: { "content-type": "text/json" },
         body: JSON.stringify({ title, content }),
       });
-      const data = await response.json();
-    
-      if (data.status !== 200) {
-        return rejectWithValue(data.detail);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData);
       }
+      const data = await response.json();
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue({ error: error.response.data});
+      return rejectWithValue({ error: error.message });
     }
   }
 );
@@ -161,7 +168,6 @@ export const BlogSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchBlogs.fulfilled, (state, action) => {
-      // console.log(action)
       state.blogs = action.payload;
       state.loading = false;
     });
@@ -178,12 +184,11 @@ export const BlogSlice = createSlice({
     builder.addCase(saveBlog.fulfilled, (state, action) => {
       state.blogs = [...state.blogs, action.payload];
       state.loading = false;
+      state.error = null; // Clear the error if the request was successful
     });
     builder.addCase(saveBlog.rejected, (state, action) => {
-      console.log(action.payload)
-      state.error = action.payload;
+      state.error = action.error.message || "An error occurred"; // Set the error message
       state.loading = false;
-      state.blogs = [];
     });
 
     ////////////////////////////FetchBlogById//////////////////////////
@@ -232,10 +237,6 @@ export const BlogSlice = createSlice({
     });
   },
 });
-export const {
-  setSnackbarToggle,
-  setDialogToggle,
-  setSnackbarMessage,
-  reset,
-} = BlogSlice.actions;
+export const { setSnackbarToggle, setDialogToggle, setSnackbarMessage, reset } =
+  BlogSlice.actions;
 export default BlogSlice.reducer;
