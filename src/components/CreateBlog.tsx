@@ -48,7 +48,6 @@ const CreateBlog: FC = () => {
       dispatch(setSnackbarMessage(error));
     }
   };
-  console.log(error)
   return (
     <>
       <form

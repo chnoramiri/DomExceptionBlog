@@ -27,6 +27,7 @@ const MediaCard: FC = () => {
   const [deleteId, setDeleteId] = useState("");
 
   useEffect(() => {
+    console.log('hello')
     dispatch(fetchBlogs());
   }, [dispatch]);
 
@@ -35,13 +36,21 @@ const MediaCard: FC = () => {
     dispatch(setDialogToggle());
   };
 
+  console.log(blogs)
+
   return (
     <Grid container className="display">
-      {loading ? (
+      {loading && !blogs ? (
         <Grid container justifyContent="center">
           <Typography variant="h5">Loading...</Typography>
         </Grid>
+      ) :
+      !loading && !blogs.length ? (
+        <Grid container justifyContent="center">
+          <Typography variant="h5">There are no blogs...</Typography>
+        </Grid>
       ) : (
+      
         blogs.map((blog, index) => {
           return (
             <Card sx={{ maxWidth: 345 }} className="card" key={index}>

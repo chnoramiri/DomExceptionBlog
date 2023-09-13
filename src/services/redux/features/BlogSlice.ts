@@ -209,6 +209,7 @@ export const BlogSlice = createSlice({
       state.error = "";
     });
     builder.addCase(editBlog.fulfilled, (state, action) => {
+      debugger
       state.blogs = state.blogs.map((blog) =>
       blog.blogId === action.payload.blogId ? action.payload : blog
     );
