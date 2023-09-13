@@ -229,7 +229,7 @@ export const BlogSlice = createSlice({
     builder.addCase(deleteBlog.fulfilled, (state, action) => {
       let index = state.blogs.findIndex(
         ({ blogId }) => blogId === action.payload?.blogId
-      );
+      ); 
       state.blogs.splice(index, 1);
       state.loading = false;
     });
