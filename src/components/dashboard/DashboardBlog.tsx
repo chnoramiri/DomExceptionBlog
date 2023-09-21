@@ -65,7 +65,7 @@ const DashboardBlog: FC = () => {
           </Grid>
 
           <Grid>
-            <Typography onClick={()=>navigate("/")}>Blogs Preiview</Typography>
+            <Typography onClick={()=>navigate("/")}>Blogs Preview</Typography>
           </Grid>
         </Grid>
         <Divider />

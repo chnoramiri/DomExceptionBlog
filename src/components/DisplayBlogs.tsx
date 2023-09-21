@@ -68,7 +68,7 @@ const MediaCard: FC = () => {
                   variant="body2"
                   color="text.secondary"
                   dangerouslySetInnerHTML={{
-                    __html: blog.content?.substring(0, 50),
+                    __html: blog.content?.substring(0, 20),
                   }}
                 ></Typography>
               </CardContent>
