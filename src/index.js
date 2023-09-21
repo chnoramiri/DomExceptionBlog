@@ -1,18 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import {App} from "./App";
+import { App } from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./services/redux/store/store.ts";
-import Login from "./components/dashboard/login/Login";
+import {MsalProvider} from '@azure/msal-react'
+import {PublicClientApplication} from '@azure/msal-browser'
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+      <Provider store={store}>
         <App />
-    </Provider>
+      </Provider>
   </React.StrictMode>
 );
 

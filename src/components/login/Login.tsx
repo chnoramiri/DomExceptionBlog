@@ -13,11 +13,14 @@ import {
 } from "@mui/material";
 import React from "react";
 import "./login.scss";
-import login from '../../../assets/images/login.png'
+import login from "../../assets/images/login.png";
+import { useNavigate } from "react-router-dom";
+
 type Props = {};
 
 export default function Login({}: Props) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -28,9 +31,9 @@ export default function Login({}: Props) {
   };
 
   return (
-    <Grid container >
+    <Grid container>
       <Grid item xs={8} className="loginP1">
-        <img src={login} className="loginIMG"/>
+        <img src={login} className="loginIMG" />
       </Grid>
       <Grid item xs={4} gap="2" className="loginP2">
         <Grid>
@@ -72,6 +75,10 @@ export default function Login({}: Props) {
           </Grid>
           <Grid container>
             <Button variant="contained">Login</Button>
+          </Grid>
+          <Grid>
+            {" "}
+            <Link  onClick={() => navigate("/")}> Go back to the website</Link>
           </Grid>
         </Grid>
       </Grid>

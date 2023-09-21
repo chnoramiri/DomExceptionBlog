@@ -12,6 +12,13 @@ import { createBrowserRouter } from "react-router-dom";
 import CreateBlog from "./components/CreateBlog";
 import EditBlog from "./components/EditBlog";
 import DeleteBlog from "./components/DeleteBlog";
+import Login from "./components/login/Login";
+import {
+  AuthenticatedTemplate,
+  MsalProvider,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
 
 export function App() {
   return (
@@ -20,11 +27,24 @@ export function App() {
     </>
   );
 }
+const pca = new PublicClientApplication({
+  auth: {
+    clientId: "22b7d364-8e33-47f2-980e-fddf165d19ca",
+    authority:
+      "https://domexception.b2clogin.com/domexception.onmicrosoft.com",
+    redirectUrl: "/",
+  },
+});
+
 const DashboardRoot = () => {
   return (
     <>
-      <DashboardBlog />
-      <Outlet />
+      <MsalProvider instance={pca}>
+        {/* <AuthenticatedTemplate> */}
+          <DashboardBlog />
+          <Outlet />
+        {/* </AuthenticatedTemplate> */}
+      </MsalProvider>
     </>
   );
 };
@@ -32,6 +52,7 @@ const DashboardRoot = () => {
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Outlet />}>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<DisplayBlogs />} />
         <Route path="/details/:id" element={<DetailsBlog />} />
@@ -45,5 +66,3 @@ export const router = createBrowserRouter(
     </Route>
   )
 );
-
-

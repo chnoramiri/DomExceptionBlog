@@ -59,7 +59,7 @@ const DashboardBlog: FC = () => {
         variant="permanent"
         anchor="left"
       >
-        <Grid container className="preiview">
+        <Grid container className="preview">
           <Grid className="homeIcon">
             <HomeIcon />
           </Grid>
