@@ -181,7 +181,7 @@ export const BlogSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(saveBlog.fulfilled, (state, action) => {
-      state.blogs = [...state.blogs, action.payload];
+      state.blogs = [...state.blogs];
       state.loading = false;
       state.error = null; // Clear the error if the request was successful
     });
