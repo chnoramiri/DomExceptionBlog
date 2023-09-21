@@ -39,12 +39,12 @@ const pca = new PublicClientApplication({
 const DashboardRoot = () => {
   return (
     <>
-      <MsalProvider instance={pca}>
+      {/* <MsalProvider instance={pca}> */}
         {/* <AuthenticatedTemplate> */}
           <DashboardBlog />
           <Outlet />
         {/* </AuthenticatedTemplate> */}
-      </MsalProvider>
+      {/* </MsalProvider> */}
     </>
   );
 };
