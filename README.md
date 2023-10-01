@@ -14,7 +14,7 @@ Welcome to the Blog Management Dashboard project! This repository hosts a dynami
 
 ## Tech Stack
 
-- **Frontend:** The project leverages React, Redux Toolkit, TypeScript, Material UI, and SCSS for a modern and user-friendly interface.
+- **Frontend:** The project leverages React, Redux Toolkit, TypeScript, and Material UI for a modern and user-friendly interface.
 
 - **Testing:** Jest is employed for comprehensive unit testing, ensuring the reliability of the application.
 
